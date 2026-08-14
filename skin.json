@@ -1,0 +1,28 @@
+{
+  "id": "arknights-amiya",
+  "name": "罗德岛 · 阿米娅",
+  "nameEn": "Rhodes Island · Amiya",
+  "author": "cbh0920",
+  "tagline": "罗德岛工作终端 · PRTS HUD · 阿米娅常驻视觉",
+  "description": "为 DSH Web UI 设计的明日方舟阿米娅主题皮肤：深色罗德岛终端、局部浅色资料面板、PRTS 信息层，以及适合 VS Code 左 / DSH 右布局的半透明阿米娅背景视觉。",
+  "tags": [
+    "arknights",
+    "amiya",
+    "rhodes-island",
+    "prts",
+    "dark",
+    "coding"
+  ],
+  "accent": "#f3c51c",
+  "bodyAttr": "data-dsh-arknights-amiya",
+  "package": "@cbh0920/dsh-client-ui-skin-arknights-amiya",
+  "wiring": {
+    "id": "ui-skin-arknights-amiya",
+    "bundleWired": false
+  },
+  "preview": {
+    "light": "packages/skins/arknights-amiya/preview/light.png",
+    "dark": "packages/skins/arknights-amiya/preview/dark.png"
+  },
+  "order": 100
+}

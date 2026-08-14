@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arknights Amiya Skin Preview</title>
+  <style>
+    html, body { width: 100%; height: 100%; margin: 0; }
+    #root { height: 100%; }
+    .demo-shell { display: grid; grid-template-columns: minmax(150px, 23%) 1fr; height: 100%; font-family: system-ui, sans-serif; }
+    .demo-sidebar { padding: 14px 10px; border-right: 1px solid rgba(164,173,180,.14); background: var(--dsw-specific-sidebar-fill); }
+    .demo-logo { margin: 0 0 18px; font: 700 11px/1.2 monospace; letter-spacing: .15em; }
+    .demo-nav { padding: 9px 10px; margin: 4px 0; border-left: 2px solid transparent; border-radius: 4px; }
+    .demo-nav.active { border-left-color: var(--amiya-yellow); background: var(--dsw-specific-sidebar-nav-item-active); }
+    .demo-main { display: flex; flex-direction: column; min-width: 0; }
+    .demo-toolbar { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-bottom: 1px solid var(--amiya-border); }
+    .demo-toolbar button { margin-left: auto; }
+    .demo-chat { flex: 1; overflow: auto; padding: 20px clamp(14px, 4vw, 46px); }
+    .demo-message { max-width: 740px; margin: 0 0 18px; padding: 14px 16px; background: var(--dsw-specific-bubble); border-left: 2px solid rgba(85,199,216,.42); }
+    .demo-message.user { margin-left: auto; border-left-color: var(--amiya-yellow); }
+    .demo-composer { padding: 12px clamp(14px, 4vw, 46px) 18px; }
+    .demo-composer-box { display: flex; gap: 8px; padding: 10px; background: var(--dsw-specific-input-major); border: 1px solid var(--amiya-border); }
+    .demo-composer textarea { flex: 1; min-height: 54px; resize: vertical; }
+    .demo-composer button { min-width: 72px; }
+    pre { overflow: auto; padding: 12px; }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="demo-shell">
+      <aside class="demo-sidebar">
+        <div class="demo-logo">DEEPSEEK HARNESS</div>
+        <div class="demo-nav active">当前会话</div>
+        <div class="demo-nav">新建会话</div>
+        <div class="demo-nav">Tasks</div>
+        <div class="demo-nav">Git Graph</div>
+      </aside>
+      <main class="demo-main">
+        <div class="demo-toolbar">
+          <strong>OTA / HTTPS 调试</strong>
+          <button id="theme-toggle" type="button">切换宿主明暗标记</button>
+        </div>
+        <section class="demo-chat">
+          <article class="demo-message user">帮我检查一下 OTA 下载流程里 HTTPS 证书验证部分。</article>
+          <article class="demo-message">
+            <p>可以。先把证书校验和下载状态机分开看，避免错误路径互相覆盖。</p>
+            <pre><code>if (tls_verify_peer(session) != 0) {
+    ota_set_state(OTA_TLS_ERROR);
+    return -1;
+}</code></pre>
+          </article>
+          <article class="demo-message">
+            <p>右侧人物层会直接进入聊天区域，但代码块与输入框保持更高不透明度。</p>
+          </article>
+        </section>
+        <div class="demo-composer">
+          <div class="demo-composer-box">
+            <textarea placeholder="向 PRTS 终端输入指令…"></textarea>
+            <button type="submit">发送</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    const params = new URLSearchParams(location.search)
+    if (params.get('theme') !== 'light') document.body.setAttribute('data-ds-dark-theme', '')
+    window.__ModuleLoader__ = {
+      load({ factory }) {
+        window.__amiyaSkin = factory(() => { throw new Error('preview bundle requested an unexpected external module') })
+      },
+    }
+    window.__amiyaCtx = {
+      effect(factory) { window.__amiyaDispose = factory() },
+    }
+  </script>
+  <script src="../lib/client.js"></script>
+  <script>
+    window.__amiyaSkin.apply(window.__amiyaCtx)
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.body.toggleAttribute('data-ds-dark-theme')
+    })
+  </script>
+</body>
+</html>

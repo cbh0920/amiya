@@ -1,0 +1,113 @@
+/* Rhodes Island / PRTS · Amiya skin. All selectors stay scoped to the skin body attribute. */
+body[data-dsh-arknights-amiya] {
+  --amiya-bg-0: #101214;
+  --amiya-bg-1: #171a1d;
+  --amiya-surface-dark: rgba(24, 28, 31, 0.82);
+  --amiya-surface-light: #e4e5e1;
+  --amiya-text: #f2f2ee;
+  --amiya-text-muted: #92999f;
+  --amiya-border: rgba(164, 173, 180, 0.20);
+  --amiya-yellow: #f3c51c;
+  --amiya-cyan: #55c7d8;
+  --amiya-danger: #d45649;
+  --amiya-topbar-h: 36px;
+  --amiya-statusbar-h: 26px;
+  --dsw-font-family: Inter, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', system-ui, sans-serif;
+  --ds-font-family-code: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  --dsw-alias-bg-base: rgba(16, 18, 20, 0.74);
+  --dsw-alias-bg-layer-1: rgba(23, 26, 29, 0.86);
+  --dsw-alias-bg-layer-2: rgba(29, 33, 36, 0.88);
+  --dsw-alias-bg-layer-3: rgba(39, 43, 46, 0.90);
+  --dsw-alias-brand-primary: #f3c51c;
+  --dsw-alias-brand-text: #f8d95e;
+  --dsw-alias-button-primary-fill: #f3c51c;
+  --dsw-alias-button-primary-hover: #f7d557;
+  --dsw-alias-label-primary: #f2f2ee;
+  --dsw-alias-label-secondary: #b8bec2;
+  --dsw-alias-label-tertiary: #92999f;
+  --dsw-alias-markdown-code-block: #0d1012;
+  --dsw-alias-markdown-code-block-banner: #141719;
+  --dsw-alias-markdown-inline-code: rgba(85, 199, 216, 0.12);
+  --dsw-specific-bubble: rgba(28, 32, 35, 0.76);
+  --dsw-specific-input-major: rgba(17, 20, 22, 0.93);
+  --dsw-specific-menu: rgba(24, 28, 31, 0.97);
+  --dsw-specific-selector: rgba(43, 48, 51, 0.96);
+  --dsw-specific-sidebar-fill: rgba(10, 12, 14, 0.93);
+  --dsw-specific-sidebar-nav-item-active-accent: #f3c51c;
+  --dsw-specific-sidebar-nav-item-active: rgba(243, 197, 28, 0.13);
+  --dsw-specific-sidebar-nav-item-hover: rgba(85, 199, 216, 0.08);
+  box-sizing: border-box;
+  min-height: 100vh;
+  margin: 0;
+  padding: var(--amiya-topbar-h) 0 var(--amiya-statusbar-h);
+  color: var(--amiya-text);
+  background: radial-gradient(circle at 12% 0%, rgba(85,199,216,.07), transparent 28%), linear-gradient(148deg,#101214 0%,#141719 50%,#0b0d0f 100%);
+}
+body[data-dsh-arknights-amiya][data-ds-dark-theme] {
+  --dsw-alias-bg-base: rgba(10, 12, 14, 0.76);
+  --dsw-specific-bubble: rgba(20, 23, 25, 0.72);
+  --dsw-specific-input-major: rgba(10, 12, 14, 0.95);
+  --dsw-specific-sidebar-fill: rgba(6, 8, 10, 0.95);
+  background: radial-gradient(circle at 12% 0%, rgba(85,199,216,.05), transparent 30%), linear-gradient(148deg,#0b0d0f 0%,#101315 50%,#060708 100%);
+}
+body[data-dsh-arknights-amiya] [id='root'] {
+  position: relative;
+  z-index: 2;
+  min-height: calc(100vh - var(--amiya-topbar-h) - var(--amiya-statusbar-h));
+  overflow: hidden;
+  background: rgba(16, 18, 20, 0.70);
+  border-block: 1px solid rgba(164,173,180,.11);
+  backdrop-filter: blur(1.5px);
+}
+body[data-dsh-arknights-amiya][data-ds-dark-theme] [id='root'] { background: rgba(8,10,12,.70); }
+body[data-dsh-arknights-amiya] .backdrop {
+  position: fixed;
+  z-index: 1;
+  inset: var(--amiya-topbar-h) 0 var(--amiya-statusbar-h);
+  overflow: hidden;
+  pointer-events: none;
+  opacity: .78;
+  filter: saturate(.78) contrast(.97);
+  background-image: linear-gradient(rgba(85,199,216,.026) 1px,transparent 1px), linear-gradient(90deg,rgba(85,199,216,.026) 1px,transparent 1px), var(--amiya-scrim), var(--amiya-art);
+  background-size: 28px 28px, 28px 28px, cover, min(50vw,760px) auto;
+  background-repeat: repeat, repeat, no-repeat, no-repeat;
+  background-position: 0 0, 0 0, center, right center;
+  -webkit-mask-image: linear-gradient(to right,transparent 0%,rgba(0,0,0,.12) 30%,#000 60%,#000 100%);
+  mask-image: linear-gradient(to right,transparent 0%,rgba(0,0,0,.12) 30%,#000 60%,#000 100%);
+}
+body[data-dsh-arknights-amiya] .backdropIdentity { position:absolute; right:24px; bottom:34px; display:flex; flex-direction:column; align-items:flex-end; color:rgba(242,242,238,.46); font-family:var(--ds-font-family-code); text-shadow:0 1px 12px #000; }
+body[data-dsh-arknights-amiya] .backdropName { font-size:clamp(38px,5vw,76px); font-weight:800; line-height:.9; letter-spacing:.08em; }
+body[data-dsh-arknights-amiya] .backdropCode { margin-top:9px; color:rgba(85,199,216,.58); font-size:10px; letter-spacing:.22em; }
+body[data-dsh-arknights-amiya] .backdropRhodes { margin-top:5px; color:rgba(243,197,28,.62); font-size:11px; font-weight:700; letter-spacing:.32em; }
+body[data-dsh-arknights-amiya] .backdropAccent { position:absolute; right:22px; top:18%; width:5px; height:132px; background:linear-gradient(180deg,transparent 0 8%,var(--amiya-yellow) 8% 70%,transparent 70%); opacity:.48; }
+body[data-dsh-arknights-amiya] .crosshair { position:absolute; right:19%; top:24%; width:64px; height:64px; border:1px solid rgba(85,199,216,.18); border-radius:50%; }
+body[data-dsh-arknights-amiya] .crosshair::before, body[data-dsh-arknights-amiya] .crosshair::after { content:''; position:absolute; background:rgba(85,199,216,.20); }
+body[data-dsh-arknights-amiya] .crosshair::before { left:31px; top:-13px; width:1px; height:88px; }
+body[data-dsh-arknights-amiya] .crosshair::after { left:-13px; top:31px; width:88px; height:1px; }
+body[data-dsh-arknights-amiya] .topbar { position:fixed; z-index:1000; inset:0 0 auto; height:var(--amiya-topbar-h); display:flex; align-items:center; gap:10px; padding:0 12px 0 14px; pointer-events:none; color:var(--amiya-text); background:linear-gradient(90deg,rgba(12,14,16,.98),rgba(24,27,29,.96)); border-bottom:1px solid rgba(164,173,180,.18); font-family:var(--ds-font-family-code); }
+body[data-dsh-arknights-amiya] .topbar::before { content:''; position:absolute; left:0; top:0; width:86px; height:3px; background:var(--amiya-yellow); }
+body[data-dsh-arknights-amiya] .topbarMark { width:18px; color:var(--amiya-yellow); font-size:22px; transform:rotate(45deg); }
+body[data-dsh-arknights-amiya] .topbarCopy { display:flex; align-items:baseline; gap:12px; min-width:0; }
+body[data-dsh-arknights-amiya] .topbarTitle { overflow:hidden; font-size:11px; font-weight:760; letter-spacing:.1em; text-overflow:ellipsis; white-space:nowrap; }
+body[data-dsh-arknights-amiya] .topbarMeta { padding:2px 8px; color:#202326; background:rgba(228,229,225,.88); font-size:9px; font-weight:700; letter-spacing:.12em; }
+body[data-dsh-arknights-amiya] .topbarSpacer, body[data-dsh-arknights-amiya] .statusSpacer { flex:1; }
+body[data-dsh-arknights-amiya] .topbarStatus { display:inline-flex; align-items:center; gap:7px; color:#aeb5ba; font-size:9px; letter-spacing:.16em; }
+body[data-dsh-arknights-amiya] .statusDot { width:6px; height:6px; border-radius:50%; background:var(--amiya-cyan); box-shadow:0 0 0 3px rgba(85,199,216,.10); animation:amiyaStatusPulse 2.8s ease-in-out infinite; }
+body[data-dsh-arknights-amiya] .statusbar { position:fixed; z-index:1000; inset:auto 0 0; height:var(--amiya-statusbar-h); display:flex; align-items:center; pointer-events:none; color:#aeb5ba; background:rgba(10,12,14,.98); border-top:1px solid rgba(164,173,180,.15); font:9px var(--ds-font-family-code); letter-spacing:.08em; }
+body[data-dsh-arknights-amiya] .statusPrimary { align-self:stretch; display:inline-flex; align-items:center; padding:0 16px 0 12px; color:#111315; background:var(--amiya-yellow); font-weight:800; }
+body[data-dsh-arknights-amiya] .statusCell { padding:0 10px; border-right:1px solid rgba(164,173,180,.10); white-space:nowrap; }
+body[data-dsh-arknights-amiya] .statusReady { padding:0 12px; color:var(--amiya-cyan); font-weight:700; }
+body[data-dsh-arknights-amiya] textarea, body[data-dsh-arknights-amiya] input { color:var(--amiya-text); background:rgba(12,15,17,.92); border-color:var(--amiya-border); caret-color:var(--amiya-yellow); }
+body[data-dsh-arknights-amiya] textarea:focus, body[data-dsh-arknights-amiya] input:focus { border-color:rgba(85,199,216,.72); outline:1px solid rgba(85,199,216,.30); }
+body[data-dsh-arknights-amiya] button { transition:background-color 150ms ease,color 150ms ease; }
+body[data-dsh-arknights-amiya] button[type='submit'] { color:#111315; border-color:var(--amiya-yellow); background:var(--amiya-yellow); }
+body[data-dsh-arknights-amiya] pre { color:#e6e9e7; background:rgba(8,10,12,.95); border:1px solid rgba(164,173,180,.16); border-left:2px solid rgba(85,199,216,.62); }
+body[data-dsh-arknights-amiya] pre code { font-family:var(--ds-font-family-code); }
+body[data-dsh-arknights-amiya] :not(pre) > code { color:#dce9e9; background:rgba(85,199,216,.10); }
+body[data-dsh-arknights-amiya] ::selection { color:#fff; background:rgba(85,199,216,.32); }
+@keyframes amiyaStatusPulse { 0%,100%{opacity:.58} 50%{opacity:1} }
+@media (min-width: 1200px) { body[data-dsh-arknights-amiya] .backdrop { opacity:.82; background-size:28px 28px,28px 28px,cover,min(48vw,780px) auto; } }
+@media (min-width: 720px) and (max-width: 1199px) { body[data-dsh-arknights-amiya] { --dsw-alias-bg-base:rgba(16,18,20,.80); --dsw-specific-bubble:rgba(24,28,31,.80); --dsw-specific-input-major:rgba(11,14,16,.96); } body[data-dsh-arknights-amiya] [id='root'] { background:rgba(15,18,20,.78); } body[data-dsh-arknights-amiya] .backdrop { opacity:.66; background-size:24px 24px,24px 24px,cover,min(66vw,700px) auto; background-position:0 0,0 0,center,right -14px center; } body[data-dsh-arknights-amiya] .topbarMeta { display:none; } }
+@media (min-width: 560px) and (max-width: 719px) { body[data-dsh-arknights-amiya] { --amiya-topbar-h:34px; --amiya-statusbar-h:24px; --dsw-specific-bubble:rgba(20,23,25,.86); --dsw-specific-input-major:rgba(9,11,13,.97); } body[data-dsh-arknights-amiya] .backdrop { opacity:.46; background-size:22px 22px,22px 22px,cover,92vw auto; background-position:0 0,0 0,center,right -78px center; } body[data-dsh-arknights-amiya] .topbarMeta, body[data-dsh-arknights-amiya] .statusCell, body[data-dsh-arknights-amiya] .backdropCode, body[data-dsh-arknights-amiya] .backdropRhodes, body[data-dsh-arknights-amiya] .crosshair { display:none; } }
+@media (max-width: 559px) { body[data-dsh-arknights-amiya] { --amiya-topbar-h:32px; --amiya-statusbar-h:22px; --dsw-alias-bg-base:rgba(14,16,18,.96); --dsw-specific-bubble:rgba(22,25,27,.96); --dsw-specific-input-major:rgba(9,11,13,.98); } body[data-dsh-arknights-amiya] .backdrop { display:none; } body[data-dsh-arknights-amiya] .topbarMeta, body[data-dsh-arknights-amiya] .statusCell, body[data-dsh-arknights-amiya] .statusReady { display:none; } }
+@media (prefers-reduced-motion: reduce) { body[data-dsh-arknights-amiya] .statusDot { animation:none; } body[data-dsh-arknights-amiya] button { transition:none; } }

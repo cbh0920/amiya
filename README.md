@@ -7,21 +7,21 @@
 ## 效果与特征
 
 - 罗德岛工业终端 + PRTS HUD。
-- 暗色主界面、暖灰资料面板、Rhodes Island 黄和 PRTS 青。
+- 暗色主界面、暖灰信息面板、Rhodes Island 黄和 PRTS 青。
 - 顶部 `RHODES ISLAND // PRTS TERMINAL`，底部 PRTS 状态栏。
 - 使用仓库内嵌的阿米娅 WebP 主视觉，无运行时图片请求、无本地绝对路径。
-- 人物层轻度去饱和并从右向左渐隐，直接进入聊天主区域。
+- 人物层轻度去饱和，并从右向左渐隐，直接进入聊天主区域。
 - **重点优化 720–1199 px 的右侧工作窗口**；`560–719 px` 继续弱化，`<560 px` 自动隐藏人物。
 - 纯呈现层：不注入服务、不发送 Cordis 事件、不修改模型请求或 DSH 业务状态。
 
 ## 预览
 
-仓库包含 Skin Center 可使用的预览图：
+仓库已包含 Skin Center 卡片预览：
 
 - `preview/light.png`
 - `preview/dark.png`
 
-本地还可以用：
+交互式本地预览：
 
 ```sh
 node scripts/build-fallback.mjs
@@ -34,35 +34,48 @@ preview/demo.html?theme=dark
 preview/demo.html?theme=light
 ```
 
-## 本仓库的使用方式
+## 独立构建
 
-**推荐方式是合入 `dsh-web-ui` 的 `packages/skins/arknights-amiya/` 后，由 Skin Center 统一管理。** 本仓库保留了上游标准 `tsdown.config.ts`，其中共享构建预设的相对路径也是按这个目录位置设计的。
-
-如果只想先在本仓库本地试用/预览，不需要 pnpm：
+当前仓库的 `tsdown.config.ts` 是**自包含构建配置**，因此既可以单独构建，也可以放进 `dsh-web-ui/packages/skins/arknights-amiya/` 后构建。
 
 ```sh
-node scripts/build-fallback.mjs
+corepack enable
+pnpm install
+pnpm test
+pnpm build
+```
+
+没有 pnpm 依赖时，也可以用 Node.js 22+ 做离线检查：
+
+```sh
 node scripts/verify-static.mjs
+node scripts/build-fallback.mjs
 ```
 
-这会生成可加载的 `lib/index.js` 与 `lib/client.js`。之后可以用 DSH 的本地 link 方式做开发调试；正式放进 Skin Center 时，仍建议回到 `dsh-web-ui` 根目录用官方 tsdown 工具链重新构建。
-
-`cordis.patch.yml` 会插入：
-
-```yaml
-- insert:
-    - id: ui-skin-arknights-amiya
-      name: '@cbh0920/dsh-client-ui-skin-arknights-amiya'
-```
-
-如果同时启用了其它 skin，建议先停用其它皮肤，避免两套 body/theme surface 同时生效。
-
-## 合并进 `dsh-web-ui` 的 Skin Center
-
-这份仓库本身已经是一个完整 skin package。合入 `zhu1090093659/dsh-web-ui` 时，把本仓库内容放到：
+fallback builder 会生成可用于本地预览和结构验证的：
 
 ```text
-packages/skins/arknights-amiya/
+lib/index.js
+lib/client.js
+```
+
+正式合入 `dsh-web-ui` 时，建议用 `pnpm build` 重新生成正式 bundle。
+
+## 接入 DSH Skin Center
+
+推荐把本仓库内容放到你的 `dsh-web-ui` 克隆中：
+
+```text
+dsh-web-ui/
+└── packages/
+    └── skins/
+        └── arknights-amiya/
+            ├── package.json
+            ├── skin.json
+            ├── cordis.patch.yml
+            ├── src/
+            ├── tests/
+            └── preview/
 ```
 
 然后在 `dsh-web-ui` 根目录执行：
@@ -74,61 +87,66 @@ pnpm --filter @cbh0920/dsh-client-ui-skin-arknights-amiya build
 node scripts/skin-center-bundles
 pnpm --filter @linxin666/dsh-client-ui-skin-center build
 node scripts/gallery-build
-node scripts/capture-previews
+node scripts/capture-previews arknights-amiya
 ```
 
-`skin.json` 已包含 Skin Center 需要的 `id / name / accent / bodyAttr / package / wiring / preview` 信息，所以重新生成 registry 后它就能进入皮肤管理列表。
+`skin.json` 已包含 Skin Center 所需的：
 
-如果上游维护者要求统一 npm scope，只需要同步修改以下三处 package 名称：
+- `id`
+- `name / nameEn`
+- `accent`
+- `bodyAttr`
+- `package`
+- `wiring`
+- `preview`
+
+重新生成 registry 后，`罗德岛 · 阿米娅` 就会出现在 Skin Center 的皮肤列表中。
+
+如果上游要求统一 npm scope，只需同步修改：
 
 1. `package.json -> name`
 2. `skin.json -> package`
 3. `cordis.patch.yml -> name`
 
-## 零依赖验证
+## 插件接线
 
-当前仓库额外提供 Node.js 22+ 的离线验证，用于没有 pnpm 依赖的环境：
+当前插件 ID：
+
+```text
+ui-skin-arknights-amiya
+```
+
+package：
+
+```text
+@cbh0920/dsh-client-ui-skin-arknights-amiya
+```
+
+`cordis.patch.yml` 已配置：
+
+```yaml
+- insert:
+    - id: ui-skin-arknights-amiya
+      name: '@cbh0920/dsh-client-ui-skin-arknights-amiya'
+```
+
+同时启用其它 skin 时，应通过 Skin Center / `dsh-skin` 保持皮肤互斥，避免两套主题同时生效。
+
+## 验证
 
 ```sh
 node scripts/verify-static.mjs
 ```
 
-它检查：
+离线验证覆盖：
 
 - apply/dispose 生命周期；
 - body scope、标题、favicon、MutationObserver 清理；
-- CSS token、聊天/输入/代码块覆盖；
-- 四档响应式规则；
-- 阿米娅立绘确实内嵌为 WebP data URL；
-- fallback DSH bundle 能生成且 `node --check` 通过；
+- CSS token、聊天区、输入区和代码块；
+- 1200+、720–1199、560–719、<560 四档响应式；
+- 阿米娅图片确实为内嵌 WebP；
+- fallback DSH bundle 结构与 JS 语法；
 - runtime 不存在官网图片热链。
-
-`node scripts/build-fallback.mjs` 生成的 bundle 仅用于离线预览和结构检查。准备合入 `dsh-web-ui` 时应使用官方 `pnpm build` 重新生成 `lib/`。
-
-## 目录
-
-```text
-.
-├── package.json
-├── cordis.patch.yml
-├── skin.json
-├── src/
-│   ├── index.ts
-│   └── client/
-│       ├── index.ts
-│       ├── lifecycle.ts
-│       ├── arknights-amiya.module.css
-│       └── amiya-art.ts
-├── scripts/
-│   ├── build-fallback.mjs
-│   └── verify-static.mjs
-├── tests/
-├── preview/
-│   ├── light.png
-│   ├── dark.png
-│   └── demo.html
-└── LICENSE
-```
 
 ## 素材说明
 
